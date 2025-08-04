@@ -1,0 +1,16 @@
+# Proposal_Engineering-Data-Exchange - B.I.G.-EU;;;;;;;;;;;;;;;
+PROJECT_NAME;EDEexample;;;;;;;;;;;;;;
+VERSION_OF_REFERENCEFILE;1;;;;;;;;;;;;;;
+TIMESTAMP_OF_LAST_CHANGE;19. Dez 05;;;;;;;;;;;;;;
+AUTHOR_OF_LAST_CHANGE;G. Sampler;;;;;;;;;;;;;;
+VERSION_OF_LAYOUT;2.2;;;;;;;;;;;;;;
+#mandatory;mandatory;mandatory;mandatory;mandatory;optional;optional;optional;optional;optional;optional;optional;optional;optional;optional;optional
+# keyname;device obj.-instance;object-name;object-type;object-instance;description;present-value-default;min-present-value;max-present-value;settable;supports COV;hi-limit;low-limit;state-text-reference;unit-code;vendor-specific-address
+Building03Room15Temperature;10;RoomTemperature;0;4123;This is a Room Temperature;20;;;N;N;24;18;;62;T1.128.15
+Building03Room15DamperPosition;10;Damper;1;1234;Damper in Duct 2;55;0;100;Y;Y;;;;98;D12.111.2345
+Building03Room15Damper;10;Damper;2;1111;Raw Value Damper;555;0;1000;N;Y;;;;95;DR12.111.2345
+Building03Room15;10;ASB03R15;8;10;Controller10;;;;N;N;;;;;A1.19.02
+Building17Room01WindowStatus;12;Window;3;4711;Window Contact;;;;N;Y;;;5432;;W123.12.7
+Building17Room01FanMode;12;Fan;14;4711;Fan;1;1;5;N;N;;;35;;F24242.1234
+Building17Room01Temperature;12;RoomTemperature;0;1000;This is a Room Temperature;20;;;N;Y;26;17;;62;T1.128.01
+Building17Room01;12;ASB17R01;8;12;Controller12;;;;N;N;;;;;A1.19.03
