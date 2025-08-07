@@ -69,8 +69,6 @@ defmodule BACnetEDE do
     If this is set to `true`, a validation error will turn into a simple error tuple.
     The extended error tuple allows for comparing what is found and may ignore the validation error,
     if the data is still sufficiently valid for the user.
-  - `fail_on_unknown_column: boolean()` - Optional. Return an error when an unknown column is encountered.
-    By default, the column will be added to the `:more_keys` map of the object.
   - `fixed_mandatory_columns: boolean()` - Optional. Uses fixed columns for the mandatory columns (no parsing).
     All following (optional) columns will be parsed.
     Mandatory columns: `keyname;device obj.-instance;object-name;object-type;object-instance`
@@ -490,7 +488,7 @@ defmodule BACnetEDE do
   defp do_parse_csv_line(row, opts, headers, acc, true) when not is_nil(headers) do
     new_headers =
       headers
-      |> Enum.drop(5)
+      |> Enum.drop(4)
       |> then(
         &[
           "device obj.-instance",
@@ -501,6 +499,10 @@ defmodule BACnetEDE do
       )
 
     do_parse_csv_line(row, opts, new_headers, acc, false)
+  end
+
+  defp do_parse_csv_line([_keyname | _row], _opts, nil, _acc, _fixed_columns) do
+    {:error, :invalid_header}
   end
 
   defp do_parse_csv_line([keyname | row], opts, headers, acc, _fixed_columns) do
@@ -533,11 +535,7 @@ defmodule BACnetEDE do
             end
 
           :error ->
-            if opts[:fail_on_unknown_column] do
-              {:halt, {:unknown_column, column}}
-            else
-              {:cont, {:ok, put_in(obj, [Access.key(:more_keys), column], value)}}
-            end
+            {:cont, {:ok, put_in(obj, [Access.key(:more_keys), column], value)}}
         end
     end)
     |> then(fn
@@ -559,7 +557,8 @@ defmodule BACnetEDE do
 
           _other ->
             if opts[:disable_with_error] do
-              {:ok, project}
+              {:error,
+               "EDE layout version is neither 2.2 nor 2.3 - parsing may be wrong and/or invalid"}
             else
               {:error,
                "EDE layout version is neither 2.2 nor 2.3 - parsing may be wrong and/or invalid",
@@ -588,7 +587,6 @@ defmodule BACnetEDE do
   @spec parse_column_value(atom(), String.t()) :: {:ok, term()} | {:error, term()}
   defp parse_column_value(type, value)
 
-  defp parse_column_value(_type, ""), do: {:ok, nil}
   defp parse_column_value(:boolean, "Y"), do: {:ok, true}
   defp parse_column_value(:boolean, "y"), do: {:ok, true}
   defp parse_column_value(:boolean, _else), do: {:ok, false}
