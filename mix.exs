@@ -26,7 +26,7 @@ defmodule BACnetEDE.MixProject do
         before_closing_body_tag: &docs_before_closing_body_tag/1
       ],
       test_coverage: [
-        ignore_modules: [~r"Inspect\..+"],
+        ignore_modules: [~r"Inspect\..+", BACnetEDE.CSV],
         summary: true,
         tool: if(System.get_env("CI"), do: ExCoveralls, else: Mix.Tasks.Test.Coverage)
       ]

@@ -147,6 +147,8 @@ defmodule BACnetEDE do
   @doc """
   Dumps the given Project (EDE data) into a CSV encoded binary.
 
+  Layout version should always be 2.3 (the current latest one).
+
   By default, only the EDE specified information will be made available into the EDE.
   If you want to also include data from the `more_keys` map of the objects,
   see the available options.
@@ -189,6 +191,8 @@ defmodule BACnetEDE do
   @doc """
   Dumps the given Project (EDE data) into a CSV file.
 
+  Layout version should always be 2.3 (the current latest one).
+
   By default, only the EDE specified information will be made available into the EDE.
   If you want to also include data from the `more_keys` map of the objects,
   see the available options.
@@ -201,9 +205,9 @@ defmodule BACnetEDE do
       raise ArgumentError, "to_stream/2 expected a keyword list, got: #{inspect(opts)}"
     end
 
-    # Check if file exists, if not, create it
+    # Check if file exists, if not, create it, if it does, clear it
     case File.stat(path) do
-      {:ok, _stat} -> :ok
+      {:ok, _stat} -> File.write(path, "")
       _else -> File.touch!(path)
     end
 
@@ -224,6 +228,8 @@ defmodule BACnetEDE do
 
   @doc """
   Dumps the given Project (EDE data) into a CSV encoded stream.
+
+  Layout version should always be 2.3 (the current latest one).
 
   By default, only the EDE specified information will be made available into the EDE.
   If you want to also include data from the `more_keys` map of the objects,
@@ -765,25 +771,20 @@ defmodule BACnetEDE do
           String.pad_leading("#{value.hour}", 2, "0") <>
           ":" <>
           String.pad_leading("#{value.minute}", 2, "0") <>
-          "." <>
+          ":" <>
           String.pad_leading("#{value.second}", 2, "0")
 
       _else ->
-        raise "Invalid date format specified, got: " <> inspect(date_format)
+        raise ArgumentError, "Invalid date format specified, got: " <> inspect(date_format)
     end
   end
 
   @spec optionally_fill_all_columns([binary()], boolean(), non_neg_integer()) :: term()
+  defp optionally_fill_all_columns(_columns, _fill_all, _columns_length)
+
   defp optionally_fill_all_columns(columns, false, _columns_length), do: columns
-  defp optionally_fill_all_columns(columns, _fill_all_columns, 0), do: columns
 
   defp optionally_fill_all_columns(columns, true, headers_length) do
-    count_columns = length(columns)
-
-    if count_columns < headers_length do
-      columns ++ List.duplicate("", headers_length - count_columns)
-    else
-      columns
-    end
+    columns ++ List.duplicate("", headers_length - length(columns))
   end
 end

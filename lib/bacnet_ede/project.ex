@@ -132,7 +132,10 @@ defmodule BACnetEDE.Project do
     def new(keys) do
       __MODULE__
       |> struct!(keys)
-      |> Map.put(:more_keys, %{})
+      |> Map.update!(:more_keys, fn
+        nil -> %{}
+        val -> val
+      end)
     end
 
     @doc """
@@ -159,7 +162,8 @@ defmodule BACnetEDE.Project do
         (is_integer(t.state_text_ref) or is_nil(t.state_text_ref)) and
         ((is_integer(t.unit_code) and t.unit_code >= 0) or is_nil(t.unit_code)) and
         (is_binary(t.vendor_specific_address) or is_nil(t.vendor_specific_address)) and
-        is_map(t.more_keys)
+        is_map(t.more_keys) and
+        Enum.all?(t.more_keys, fn {key, value} -> is_binary(key) and is_binary(value) end)
     end
   end
 
@@ -201,7 +205,10 @@ defmodule BACnetEDE.Project do
   def new(keys) do
     __MODULE__
     |> struct!(keys)
-    |> Map.put(:objects, %{})
+    |> Map.update!(:objects, fn
+      nil -> %{}
+      other -> other
+    end)
     |> Map.update!(:author_last_change, fn
       nil -> ""
       other -> other

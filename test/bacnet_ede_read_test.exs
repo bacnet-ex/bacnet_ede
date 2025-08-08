@@ -1,9 +1,14 @@
-defmodule BACnetEDE.Test.BACnetEDETest do
+defmodule BACnetEDE.Test.BACnetEDEReadTest do
   use ExUnit.Case
 
   alias BACnetEDE
 
   # doctest BACnetEDE
+
+  @basedir Path.join([
+             __DIR__,
+             "stubs"
+           ])
 
   @sample_data %{
     project_name: "EDEexample",
@@ -132,7 +137,7 @@ defmodule BACnetEDE.Test.BACnetEDETest do
     ]
   }
 
-  sample_file_contents = File.read!("./samples/EDE_2_2_example_EDE.csv")
+  sample_file_contents = File.read!(Path.join([@basedir, "example.csv"]))
 
   test "parse sample as binary" do
     assert {:ok, %BACnetEDE.Project{} = project} =
@@ -333,7 +338,7 @@ defmodule BACnetEDE.Test.BACnetEDETest do
 
   test "parse sample as file" do
     assert {:ok, %BACnetEDE.Project{} = project} =
-             BACnetEDE.from_file("./samples/EDE_2_2_example_EDE.csv")
+             BACnetEDE.from_file(Path.join([@basedir, "example.csv"]))
 
     assert BACnetEDE.Project.valid?(project) == true
 
@@ -355,7 +360,7 @@ defmodule BACnetEDE.Test.BACnetEDETest do
     assert {:ok, %BACnetEDE.Project{} = project} =
              BACnetEDE.from_binary(
                "# AUTHOR_OF_LAST_CHANGE;;\r\n" <>
-                 File.read!("./samples/EDE_2_2_Siemens_Desigo_PXC4_EDE.csv"),
+                 File.read!(Path.join([@basedir, "siemens.csv"])),
                skip_type_errors: true
              )
 
@@ -374,7 +379,7 @@ defmodule BACnetEDE.Test.BACnetEDETest do
 
   test "parse sample as stream" do
     assert {:ok, %BACnetEDE.Project{} = project} =
-             BACnetEDE.from_stream(File.stream!("./samples/EDE_2_2_example_EDE.csv"))
+             BACnetEDE.from_stream(File.stream!(Path.join([@basedir, "example.csv"])))
 
     assert BACnetEDE.Project.valid?(project) == true
 
