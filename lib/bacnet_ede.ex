@@ -202,7 +202,7 @@ defmodule BACnetEDE do
   @spec to_file(Project.t(), Path.t(), Keyword.t()) :: :ok | {:error, term()}
   def to_file(%Project{} = project, path, opts \\ []) when is_binary(path) and is_list(opts) do
     if not Keyword.keyword?(opts) do
-      raise ArgumentError, "to_stream/2 expected a keyword list, got: #{inspect(opts)}"
+      raise ArgumentError, "to_file/2 expected a keyword list, got: #{inspect(opts)}"
     end
 
     # Check if file exists, if not, create it, if it does, clear it
