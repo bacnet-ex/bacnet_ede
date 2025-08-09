@@ -285,7 +285,7 @@ defmodule BACnetEDE.StateTexts do
 
   defp do_parse_csv_line([reference | texts], _opts, acc) do
     case Integer.parse(reference) do
-      {ref_num, _rest} ->
+      {ref_num, _rest} when ref_num >= 0 ->
         # Remove empty cells at the end
         cleaned =
           texts
