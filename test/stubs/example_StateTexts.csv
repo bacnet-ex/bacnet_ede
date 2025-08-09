@@ -1,0 +1,8 @@
+﻿#State Text Reference;;;;;;;
+#Reference Number;Text 1 or Inactive-Text ;Text 2 or Active-Text ;Text 3;Text 4;Text 5;...;Text n
+4;OFF;State 1;State 2;State 3;State 4;;
+22;OFF;ON;;;;;
+35;OFF;AUTO;STAGE 1;STAGE 2;STAGE 3;;
+120;DARK;BRIGHT;;;;;
+121;ON;OFF;;;;;
+5432;OPEN;CLOSED;;;;;

@@ -13,7 +13,7 @@ defmodule BACnetEDE.Test.BACnetEDEWriteTest do
               "#{__MODULE__}-#{System.os_time()}-#{trunc(:rand.uniform() * 1_000)}.csv"
             ])
 
-  setup_all do
+  setup do
     File.rm_rf(@filepath)
     :ok
   end
