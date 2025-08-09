@@ -11,6 +11,8 @@ defmodule BACnetEDE do
   alias BACnetEDE.CSV
   alias BACnetEDE.Project
 
+  @latest_layout_version "2.3"
+
   @column_mapping %{
     "#keyname" => :keyname,
     "# keyname" => :keyname,
@@ -53,14 +55,21 @@ defmodule BACnetEDE do
 
   @bom :unicode.encoding_to_bom(:utf8)
 
-  @doc """
-  Parses the given binary as an EDE CSV file.
+  @typedoc """
+  Available options for `from_binary/2`, `from_file/2` and `from_stream/2`.
 
-  The parser will recognize EDE layout version 2.2 and 2.3 without error,
-  however other versions will be parsed on "best effort" basis and return a "with error" (see option `disable_with_error`),
-  which you should handle, if you intend to parse earlier versions (don't even think about disabling "with error" in such a case).
+  See `t:parse_options/0` for a description of the available options.
+  """
+  @type parse_option ::
+          {:csv_parser, module()}
+          | {:disable_with_error, boolean()}
+          | {:fixed_mandatory_columns, boolean()}
+          | {:skip_type_errors, boolean()}
 
-  The following options are available:
+  @typedoc """
+  Available options for `from_binary/2`, `from_file/2` and `from_stream/2`.
+
+  Available options:
   - `csv_parser: module()` - Optional. A module implementing the Nimble CSV behaviour.
     The default CSV parser uses semicolons and CRLF newlines as separator.
     You may have the need for a different separator (i.e. comma) for your EDE file.
@@ -77,7 +86,52 @@ defmodule BACnetEDE do
     This option will simply ignore the value and column (value will stay as `nil`).
     Please note, that validation MAY fail when a mandatory field is not set.
   """
-  @spec from_binary(binary(), Keyword.t()) ::
+  @type parse_options :: [parse_option()]
+
+  @typedoc """
+  Available options for `to_binary/2`, `to_file/3` and `to_stream/2`.
+
+  See `t:dump_options/0` for a description of the available options.
+  """
+  @type dump_option ::
+          {:csv_encoder, module()}
+          | {:date_format, :named | :german | :german_with_time | :iso8601}
+          | {:dump_all_keys, boolean()}
+          | {:fill_all_columns, boolean()}
+          | {:unlock_layout_version, boolean()}
+
+  @typedoc """
+  Available options for `to_binary/2`, `to_file/3` and `to_stream/2`.
+
+  Available options:
+  - `csv_encoder: module()` - Optional. A module implementing the Nimble CSV behaviour.
+    The default CSV encoder uses semicolons and CRLF newlines as separator.
+    You may have the need for a different separator (i.e. comma) for your EDE file.
+  - `date_format: :named | :german | :german_with_time | :iso8601` - Optional.
+    The date format to use (defaults to `:named`).
+    Formats: `named: 04 Jan 2025`, `german: 04.01.2025`, `german_with_time: 04.01.2025 10:05:30`.
+  - `dump_all_keys: boolean()` - Optional. Dumps all, including `:more_keys`, of objects.
+    If false, it will only dump the keys of the `BACnetEDE.Project.Object` struct
+    without any additional data (`:more_keys`).
+    Dumping all keys will substantially use more computing resources as the data has to be enumerated twice.
+    First to get all available keys and build the header and then once more to dump the values.
+  - `fill_all_columns: boolean()` - Optional. Ensures all rows have the same amount of columns.
+    By default, only the necessary amount of columns per row is used for the EDE header part.
+  - `unlock_layout_version: boolean()` - Optional. Uses the layout version of the project
+    instead of defaulting to the latest.
+  """
+  @type dump_options :: [dump_option()]
+
+  @doc """
+  Parses the given binary as an EDE CSV file.
+
+  The parser will recognize EDE layout version 2.2 and 2.3 without error,
+  however other versions will be parsed on "best effort" basis and return a "with error" (see option `disable_with_error`),
+  which you should handle, if you intend to parse earlier versions (don't even think about disabling "with error" in such a case).
+
+  See `t:parse_options/0` for a description of the available options.
+  """
+  @spec from_binary(binary(), parse_options()) ::
           {:ok, Project.t()} | {:with_error, String.t(), Project.t()} | {:error, term()}
   def from_binary(binary, opts \\ []) when is_binary(binary) and is_list(opts) do
     if not Keyword.keyword?(opts) do
@@ -101,9 +155,9 @@ defmodule BACnetEDE do
   however other versions will be parsed on "best effort" basis and return a "with error" (see option `disable_with_error`),
   which you should handle, if you intend to parse earlier versions (don't even think about disabling "with error" in such a case).
 
-  See `from_binary/2` for the available options.
+  See `t:parse_options/0` for a description of the available options.
   """
-  @spec from_file(Path.t(), Keyword.t()) ::
+  @spec from_file(Path.t(), parse_options()) ::
           {:ok, Project.t()} | {:with_error, String.t(), Project.t()} | {:error, term()}
   def from_file(path, opts \\ []) when is_binary(path) and is_list(opts) do
     if not Keyword.keyword?(opts) do
@@ -120,15 +174,15 @@ defmodule BACnetEDE do
 
   @doc """
   Parses an EDE file from a CSV stream (i.e. a file stream).
-  Make sure the stream is line-orientated or use `NimbleCSV.to_line_stream/1` if you can't.
+  Make sure the stream is line-orientated or use NimbleCSV's `to_line_stream/1` if you can't.
 
   The parser will recognize EDE layout version 2.2 and 2.3 without error,
   however other versions will be parsed on "best effort" basis and return a "with error" (see option `disable_with_error`),
   which you should handle, if you intend to parse earlier versions (don't even think about disabling "with error" in such a case).
 
-  See `from_binary/2` for the available options.
+  See `t:parse_options/0` for a description of the available options.
   """
-  @spec from_stream(Enumerable.t(), Keyword.t()) ::
+  @spec from_stream(Enumerable.t(), parse_options()) ::
           {:ok, Project.t()} | {:with_error, String.t(), Project.t()} | {:error, term()}
   def from_stream(stream, opts \\ []) when is_list(opts) do
     if not Keyword.keyword?(opts) do
@@ -153,20 +207,9 @@ defmodule BACnetEDE do
   If you want to also include data from the `more_keys` map of the objects,
   see the available options.
 
-  The following options are available:
-  - `csv_encoder: module()` - Optional. A module implementing the Nimble CSV behaviour.
-    The default CSV encoder uses semicolons and CRLF newlines as separator.
-    You may have the need for a different separator (i.e. comma) for your EDE file.
-  - `date_format: :named | :german | :german_with_time` - Optional. The date format to use (defaults to `:named`).
-    Formats: `named: 04 Jan 2025`, `german: 04.01.2025`, `german_with_time: 04.01.2025 10:05:30`.
-  - `dump_all_keys: boolean()` - Optional. Dumps all, including `:more_keys`, of objects.
-    If false, it will only dump the keys of the `Object` struct without any additional data (`:more_keys`).
-    Dumping all keys will substantially use more computing resources as the data has to be enumerated twice.
-    First to get all available keys and build the header and then once more to dump the values.
-  - `fill_all_columns: boolean()` - Optional. Ensures all rows have the same amount of columns.
-    By default, only the necessary amount of columns per row is used for the EDE header part.
+  See `t:dump_options/0` for a description of the available options.
   """
-  @spec to_binary(Project.t(), Keyword.t()) :: {:ok, binary()} | {:error, term()}
+  @spec to_binary(Project.t(), dump_options()) :: {:ok, binary()} | {:error, term()}
   def to_binary(%Project{} = project, opts \\ []) when is_list(opts) do
     if not Keyword.keyword?(opts) do
       raise ArgumentError, "to_binary/2 expected a keyword list, got: #{inspect(opts)}"
@@ -197,9 +240,9 @@ defmodule BACnetEDE do
   If you want to also include data from the `more_keys` map of the objects,
   see the available options.
 
-  See `to_binary/2` for the available options.
+  See `t:dump_options/0` for a description of the available options.
   """
-  @spec to_file(Project.t(), Path.t(), Keyword.t()) :: :ok | {:error, term()}
+  @spec to_file(Project.t(), Path.t(), dump_options()) :: :ok | {:error, term()}
   def to_file(%Project{} = project, path, opts \\ []) when is_binary(path) and is_list(opts) do
     if not Keyword.keyword?(opts) do
       raise ArgumentError, "to_file/2 expected a keyword list, got: #{inspect(opts)}"
@@ -235,9 +278,9 @@ defmodule BACnetEDE do
   If you want to also include data from the `more_keys` map of the objects,
   see the available options.
 
-  See `to_binary/2` for the available options.
+  See `t:dump_options/0` for a description of the available options.
   """
-  @spec to_stream(Project.t(), Keyword.t()) :: {:ok, Enumerable.t()} | {:error, term()}
+  @spec to_stream(Project.t(), dump_options()) :: {:ok, Enumerable.t()} | {:error, term()}
   def to_stream(%Project{} = project, opts \\ []) when is_list(opts) do
     if not Keyword.keyword?(opts) do
       raise ArgumentError, "to_stream/2 expected a keyword list, got: #{inspect(opts)}"
@@ -302,7 +345,10 @@ defmodule BACnetEDE do
           header_columns_len
         ),
         optionally_fill_all_columns(
-          ["VERSION_OF_REFERENCEFILE", project.version],
+          [
+            "VERSION_OF_REFERENCEFILE",
+            project.version
+          ],
           fill_all_columns,
           header_columns_len
         ),
@@ -320,7 +366,13 @@ defmodule BACnetEDE do
           header_columns_len
         ),
         optionally_fill_all_columns(
-          ["VERSION_OF_LAYOUT", project.layout_version],
+          [
+            "VERSION_OF_LAYOUT",
+            if(opts[:unlock_layout_version],
+              do: project.layout_version,
+              else: @latest_layout_version
+            )
+          ],
           fill_all_columns,
           header_columns_len
         ),
@@ -615,7 +667,8 @@ defmodule BACnetEDE do
 
   @spec parse_date(String.t()) :: {:ok, NaiveDateTime.t()} | {:error, term()}
   defp parse_date(date) when is_binary(date) do
-    with {:error, _value} <- parse_date_v1(date),
+    with {:error, _value} <- NaiveDateTime.from_iso8601(date),
+         {:error, _value} <- parse_date_v1(date),
          {:error, _value} <- parse_date_v2(date),
          do: {:error, {:unknown_timestamp_value, date}}
   end
@@ -773,6 +826,9 @@ defmodule BACnetEDE do
           String.pad_leading("#{value.minute}", 2, "0") <>
           ":" <>
           String.pad_leading("#{value.second}", 2, "0")
+
+      :iso8601 ->
+        NaiveDateTime.to_iso8601(value)
 
       _else ->
         raise ArgumentError, "Invalid date format specified, got: " <> inspect(date_format)

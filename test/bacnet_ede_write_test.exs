@@ -314,6 +314,36 @@ defmodule BACnetEDE.Test.BACnetEDEWriteTest do
     assert expected == actual
   end
 
+  test "to_binary with date format ISO8601" do
+    project = %BACnetEDE.Project{
+      project_name: "EDEexample",
+      version: "1",
+      timestamp_last_change: ~N[2005-02-09 11:15:58],
+      author_last_change: "G. Sampler",
+      layout_version: "2.3",
+      objects: %{}
+    }
+
+    assert {:ok, actual} =
+             BACnetEDE.to_binary(project, date_format: :iso8601)
+
+    expected = """
+    # Engineering-Data-Exchange - B.I.G.-EU\r
+    PROJECT_NAME;EDEexample\r
+    VERSION_OF_REFERENCEFILE;1\r
+    TIMESTAMP_OF_LAST_CHANGE;2005-02-09T11:15:58\r
+    AUTHOR_OF_LAST_CHANGE;G. Sampler\r
+    VERSION_OF_LAYOUT;2.3\r
+    #mandatory;mandatory;mandatory;mandatory;mandatory;optional;optional;optional;optional;optional;optional;\
+    optional;optional;optional;optional;optional\r
+    # keyname;device obj.-instance;object-name;object-type;object-instance;description;present-value-default;\
+    min-present-value;max-present-value;settable;supports COV;hi-limit;low-limit;state-text-reference;\
+    unit-code;vendor-specific-address\r
+    """
+
+    assert expected == actual
+  end
+
   test "to_binary with date format unknown" do
     project = %BACnetEDE.Project{
       project_name: "EDEexample",
@@ -327,6 +357,64 @@ defmodule BACnetEDE.Test.BACnetEDEWriteTest do
     assert_raise ArgumentError, fn ->
       BACnetEDE.to_binary(project, date_format: :hello)
     end
+  end
+
+  test "to_binary uses latest layout version" do
+    project = %BACnetEDE.Project{
+      project_name: "EDEexample",
+      version: "1",
+      timestamp_last_change: ~N[2005-12-19 00:00:00],
+      author_last_change: "G. Sampler",
+      layout_version: "2.2",
+      objects: %{}
+    }
+
+    assert {:ok, actual} = BACnetEDE.to_binary(project)
+
+    expected = """
+    # Engineering-Data-Exchange - B.I.G.-EU\r
+    PROJECT_NAME;EDEexample\r
+    VERSION_OF_REFERENCEFILE;1\r
+    TIMESTAMP_OF_LAST_CHANGE;19. Dec 2005\r
+    AUTHOR_OF_LAST_CHANGE;G. Sampler\r
+    VERSION_OF_LAYOUT;2.3\r
+    #mandatory;mandatory;mandatory;mandatory;mandatory;optional;optional;optional;optional;optional;optional;\
+    optional;optional;optional;optional;optional\r
+    # keyname;device obj.-instance;object-name;object-type;object-instance;description;present-value-default;\
+    min-present-value;max-present-value;settable;supports COV;hi-limit;low-limit;state-text-reference;\
+    unit-code;vendor-specific-address\r
+    """
+
+    assert expected == actual
+  end
+
+  test "to_binary unlock layout version" do
+    project = %BACnetEDE.Project{
+      project_name: "EDEexample",
+      version: "1",
+      timestamp_last_change: ~N[2005-12-19 00:00:00],
+      author_last_change: "G. Sampler",
+      layout_version: "2.2",
+      objects: %{}
+    }
+
+    assert {:ok, actual} = BACnetEDE.to_binary(project, unlock_layout_version: true)
+
+    expected = """
+    # Engineering-Data-Exchange - B.I.G.-EU\r
+    PROJECT_NAME;EDEexample\r
+    VERSION_OF_REFERENCEFILE;1\r
+    TIMESTAMP_OF_LAST_CHANGE;19. Dec 2005\r
+    AUTHOR_OF_LAST_CHANGE;G. Sampler\r
+    VERSION_OF_LAYOUT;2.2\r
+    #mandatory;mandatory;mandatory;mandatory;mandatory;optional;optional;optional;optional;optional;optional;\
+    optional;optional;optional;optional;optional\r
+    # keyname;device obj.-instance;object-name;object-type;object-instance;description;present-value-default;\
+    min-present-value;max-present-value;settable;supports COV;hi-limit;low-limit;state-text-reference;\
+    unit-code;vendor-specific-address\r
+    """
+
+    assert expected == actual
   end
 
   test "to_file writes non-existing file" do

@@ -316,6 +316,26 @@ defmodule BACnetEDE.Test.BACnetEDEReadTest do
              BACnetEDE.from_binary(sample)
   end
 
+  test "from_binary cover date format ISO8601" do
+    # CRLF needed instead of LF
+    sample =
+      String.replace(
+        """
+        # PROJECT_NAME;H_W1H3-01_416_HQ_ABT_Site_de_V2;
+        # VERSION_OF_REFERENCEFILE;1;
+        # TIMESTAMP_OF_LAST_CHANGE;2005-02-09T11:15:58;
+        # VERSION_OF_LAYOUT;2.3;
+        # mandatory;mandatory;mandatory;mandatory;mandatory;optional;optional;optional;optional;optional;optional;optional;optional;optional;optional;
+        # keyname;device-obj-instance;object-name;object-type;object-instance;description;present-value-default;min-present-value;max-present-value;commandValue;hi-limit;low-limit;unit-code;object-tag-text;state-text;
+        """,
+        "\n",
+        "\r\n"
+      )
+
+    assert {:ok, %BACnetEDE.Project{timestamp_last_change: ~N[2005-02-09 11:15:58]} = _project} =
+             BACnetEDE.from_binary(sample)
+  end
+
   test "from_binary error on unknown word month" do
     # CRLF needed instead of LF
     sample =
