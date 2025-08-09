@@ -11,6 +11,7 @@ defmodule BACnetEDE do
   alias BACnetEDE.CSV
   alias BACnetEDE.Project
 
+  @bom :unicode.encoding_to_bom(:utf8)
   @latest_layout_version "2.3"
 
   @column_mapping %{
@@ -52,8 +53,6 @@ defmodule BACnetEDE do
     unit_code: :integer,
     notification_class: :integer
   }
-
-  @bom :unicode.encoding_to_bom(:utf8)
 
   @typedoc """
   Available options for `from_binary/2`, `from_file/2` and `from_stream/2`.
@@ -142,7 +141,7 @@ defmodule BACnetEDE do
 
     binary
     |> csv_mod.parse_string(skip_headers: false)
-    |> Enum.with_index(1)
+    |> Stream.with_index(1)
     |> parse_csv_lines(opts)
     |> do_finish_parsing(opts)
   end
