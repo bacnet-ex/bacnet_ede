@@ -1,6 +1,8 @@
 defmodule BACnetEDE.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/bacnet-ex/bacnet_ede"
+
   def project do
     [
       app: :bacnet_ede,
@@ -15,7 +17,9 @@ defmodule BACnetEDE.MixProject do
         ignore_warnings: "dialyzer.ignore-warnings.exs",
         plt_add_apps: []
       ],
-      source_url: "https://github.com/bacnet-ex/bacnet_ede",
+      source_url: @source_url,
+      description:
+        "BACnetEDE is a BACnet EDE File parser and writer. EDE stands for Engineering Data Exchange.",
       docs: [
         main: "BACnetEDE",
         source_ref: "master",
@@ -25,6 +29,7 @@ defmodule BACnetEDE.MixProject do
         # before_closing_head_tag: &docs_before_closing_head_tag/1,
         # before_closing_body_tag: &docs_before_closing_body_tag/1
       ],
+      package: package(),
       test_coverage: [
         ignore_modules: [~r"Inspect\..+", BACnetEDE.CSV, BACnetEDE.CSV.TwoCellFormat],
         summary: true,
@@ -54,4 +59,12 @@ defmodule BACnetEDE.MixProject do
   # Specifies which paths to compile per environment
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp package() do
+    [
+      maintainers: ["bacnet-ex"],
+      licenses: ["Apache-2.0"],
+      links: %{"GitHub" => @source_url}
+    ]
+  end
 end
