@@ -19,6 +19,14 @@ defmodule BACnetEDE.Test.BACnetEDE.ProjectTest do
     assert %Project{objects: %{"a" => 1}} = Project.new(objects: %{"a" => 1})
   end
 
+  test "new/1 returns struct with field author_last_change as string" do
+    assert %Project{author_last_change: ""} = Project.new(author_last_change: nil)
+  end
+
+  test "new/1 returns struct with field objects as map" do
+    assert %Project{objects: %{}} = Project.new(objects: nil)
+  end
+
   test "valid?/0 validates struct" do
     assert Project.valid?(%Project{
              project_name: "EDEexample",

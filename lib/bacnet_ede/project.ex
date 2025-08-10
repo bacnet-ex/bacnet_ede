@@ -74,12 +74,12 @@ defmodule BACnetEDE.Project do
   def new(keys) do
     __MODULE__
     |> struct(keys)
-    |> Map.update!(:objects, fn
-      nil -> %{}
-      other -> other
-    end)
     |> Map.update!(:author_last_change, fn
       nil -> ""
+      other -> other
+    end)
+    |> Map.update!(:objects, fn
+      nil -> %{}
       other -> other
     end)
   end
