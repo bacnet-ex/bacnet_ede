@@ -5,6 +5,7 @@ defmodule BACnetEDE.Test.StateTextsTest do
 
   @basedir Path.join([
              __DIR__,
+             "..",
              "stubs"
            ])
 

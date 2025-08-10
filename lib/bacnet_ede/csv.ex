@@ -176,7 +176,7 @@ defmodule BACnetEDE.CSV.TwoCellFormat do
       _else -> File.touch!(path)
     end
 
-    file_stream = File.stream!(path, :line)
+    file_stream = File.stream!(path)
 
     csv
     |> to_stream(opts)

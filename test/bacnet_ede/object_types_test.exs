@@ -5,6 +5,7 @@ defmodule BACnetEDE.Test.ObjectTypesTest do
 
   @basedir Path.join([
              __DIR__,
+             "..",
              "stubs"
            ])
 

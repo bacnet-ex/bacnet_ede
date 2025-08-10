@@ -274,7 +274,7 @@ defmodule BACnetEDE do
       _else -> File.touch!(path)
     end
 
-    file_stream = File.stream!(path, :line)
+    file_stream = File.stream!(path)
 
     project
     |> to_stream(opts)

@@ -166,7 +166,7 @@ defmodule BACnetEDE.StateTexts do
       _else -> File.touch!(path)
     end
 
-    file_stream = File.stream!(path, :line)
+    file_stream = File.stream!(path)
 
     texts
     |> to_stream(opts)
