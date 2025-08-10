@@ -157,7 +157,7 @@ defmodule BACnetEDE.StateTexts do
   @spec to_file(t(), Path.t(), dump_options()) :: :ok | {:error, term()}
   def to_file(%__MODULE__{} = texts, path, opts \\ []) when is_binary(path) and is_list(opts) do
     if not Keyword.keyword?(opts) do
-      raise ArgumentError, "to_file/2 expected a keyword list, got: #{inspect(opts)}"
+      raise ArgumentError, "to_file/3 expected a keyword list, got: #{inspect(opts)}"
     end
 
     # Check if file exists, if not, create it, if it does, clear it

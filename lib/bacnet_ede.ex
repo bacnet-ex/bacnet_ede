@@ -173,7 +173,9 @@ defmodule BACnetEDE do
 
   @doc """
   Parses an EDE file from a CSV stream (i.e. a file stream).
+
   Make sure the stream is line-orientated or use NimbleCSV's `to_line_stream/1` if you can't.
+  See `BACnetEDE.CSV.to_line_stream/1` for the default parser's function.
 
   The parser will recognize EDE layout version 2.2 and 2.3 without error,
   however other versions will be parsed on "best effort" basis and return a "with error" (see option `disable_with_error`),
@@ -244,7 +246,7 @@ defmodule BACnetEDE do
   @spec to_file(Project.t(), Path.t(), dump_options()) :: :ok | {:error, term()}
   def to_file(%Project{} = project, path, opts \\ []) when is_binary(path) and is_list(opts) do
     if not Keyword.keyword?(opts) do
-      raise ArgumentError, "to_file/2 expected a keyword list, got: #{inspect(opts)}"
+      raise ArgumentError, "to_file/3 expected a keyword list, got: #{inspect(opts)}"
     end
 
     # Check if file exists, if not, create it, if it does, clear it
