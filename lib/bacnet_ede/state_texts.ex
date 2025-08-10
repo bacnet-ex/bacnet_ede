@@ -62,7 +62,7 @@ defmodule BACnetEDE.StateTexts do
   @type dump_options :: [dump_option()]
 
   @doc """
-  Parses the given binary as a Sate Text EDE CSV file.
+  Parses the given binary as a State Text EDE CSV file.
 
   See `t:parse_options/0` for a description of the available options.
   """
@@ -102,7 +102,9 @@ defmodule BACnetEDE.StateTexts do
 
   @doc """
   Parses a State Text EDE file from a CSV stream (i.e. a file stream).
+
   Make sure the stream is line-orientated or use NimbleCSV's `to_line_stream/1` if you can't.
+  See `BACnetEDE.CSV.to_line_stream/1` for the default parser's function.
 
   See `t:parse_options/0` for a description of the available options.
   """
@@ -221,7 +223,9 @@ defmodule BACnetEDE.StateTexts do
         _i, {header_rows, objects} ->
           case :maps.next(objects) do
             {number, state_texts, iterator} ->
-              row = optionally_fill_all_columns([number | state_texts], true, header_columns_len)
+              row =
+                optionally_fill_all_columns(["#{number}" | state_texts], true, header_columns_len)
+
               {[row], {header_rows, iterator}}
 
             _else ->
