@@ -55,6 +55,25 @@ defmodule BACnetEDE do
   }
 
   @typedoc """
+  Naming convents for the EDE files.
+
+  The following naming conventions exist for EDE files (including additional files, such as state texts):
+  - Prefix: Name agreed by the involved parties (e.g. the project name)
+  - Separator: `_` Underscore
+  - Suffix:
+    - `EDE` identifies the main EDE file/table
+    - `ObjTypes` identifies the object type table
+    - `StateTexts` identifies the state texts used in Binary and Multistate objects
+    - `Units` identifies the table of BACnet engineering units
+  - Extension: `.csv`
+  """
+  @type naming_convention ::
+          {:EDE, :"_EDE.csv"}
+          | {:object_types, :"_ObjTypes.csv"}
+          | {:state_texts, :"_StateTexts.csv"}
+          | {:units, :"_Units.csv"}
+
+  @typedoc """
   Available options for `from_binary/2`, `from_file/2` and `from_stream/2`.
 
   See `t:parse_options/0` for a description of the available options.
