@@ -45,8 +45,8 @@ defmodule BACnetEDE.MixProject do
       {:dialyxir, "1.4.3", only: [:dev, :test], runtime: false},
       {:doctor, "~> 0.21", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.18", only: [:test], runtime: false},
-      {:junit_formatter, "~> 3.3", only: [:test], runtime: false},
+      # {:excoveralls, "~> 0.18", only: [:test], runtime: false},
+      # {:junit_formatter, "~> 3.3", only: [:test], runtime: false},
       {:nimble_csv, "~> 1.3"}
     ]
   end
