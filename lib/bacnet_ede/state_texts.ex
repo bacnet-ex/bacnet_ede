@@ -95,7 +95,7 @@ defmodule BACnetEDE.StateTexts do
     # Make sure the file exists before calling File.stream!/3
     with {:ok, _stat} <- File.stat(path) do
       path
-      |> File.stream!(:line, encoding: :utf8)
+      |> File.stream!(encoding: :utf8)
       |> from_stream(opts)
     end
   end
