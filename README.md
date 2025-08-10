@@ -1,4 +1,4 @@
-# BACnetEDE
+# BACnetEDE [![CI Tests](https://github.com/bacnet-ex/bacnet_ede/workflows/Elixir%20CI/badge.svg)](https://github.com/bacnet-ex/bacnet_ede/actions?query=branch%3Amaster) [![Hex.pm](https://img.shields.io/hexpm/v/bacnet_ede.svg)](https://hex.pm/packages/bacnet_ede) [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/bacnet_ede)
 
 BACnetEDE is a BACnet EDE File parser and writer. EDE stands for Engineering Data Exchange.
 
