@@ -76,6 +76,13 @@ defmodule BACnetEDE.Project.Object do
           }
         }
 
+  @enforce_keys [
+    :keyname,
+    :device_instance,
+    :object_name,
+    :object_type,
+    :object_instance
+  ]
   defstruct [
     :keyname,
     :device_instance,
@@ -100,14 +107,21 @@ defmodule BACnetEDE.Project.Object do
   @doc false
   @spec new() :: t()
   def new() do
-    %__MODULE__{more_keys: %{}}
+    %__MODULE__{
+      keyname: nil,
+      device_instance: nil,
+      object_name: nil,
+      object_type: nil,
+      object_instance: nil,
+      more_keys: %{}
+    }
   end
 
   @doc false
   @spec new(Enumerable.t()) :: t()
   def new(keys) do
     __MODULE__
-    |> struct!(keys)
+    |> struct(keys)
     |> Map.update!(:more_keys, fn
       nil -> %{}
       val -> val

@@ -42,26 +42,38 @@ defmodule BACnetEDE.Project do
           }
         }
 
+  @enforce_keys [
+    :project_name,
+    :version,
+    :timestamp_last_change,
+    :author_last_change
+  ]
   defstruct [
     :project_name,
     :version,
     :timestamp_last_change,
-    :author_last_change,
-    :layout_version,
-    :objects
+    author_last_change: "",
+    layout_version: "2.3",
+    objects: %{}
   ]
 
   @doc false
   @spec new() :: t()
   def new() do
-    %__MODULE__{author_last_change: "", objects: %{}}
+    %__MODULE__{
+      project_name: nil,
+      version: nil,
+      timestamp_last_change: nil,
+      author_last_change: "",
+      objects: %{}
+    }
   end
 
   @doc false
   @spec new(Enumerable.t()) :: t()
   def new(keys) do
     __MODULE__
-    |> struct!(keys)
+    |> struct(keys)
     |> Map.update!(:objects, fn
       nil -> %{}
       other -> other
