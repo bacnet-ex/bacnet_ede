@@ -55,7 +55,7 @@ defmodule BACnetEDE do
   }
 
   @typedoc """
-  Naming convents for the EDE files.
+  Naming conventions for the EDE files.
 
   The following naming conventions exist for EDE files (including additional files, such as state texts):
   - Prefix: Name agreed by the involved parties (e.g. the project name)
