@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.40.1">
+    <meta name="project" content="bacnet_ede v0.1.1">
+
+
+    <title>BACnetEDE.Project.Object — bacnet_ede v0.1.1</title>
+
+    <link rel="stylesheet" href="dist/html-elixir-YJO4MOOW.css" />
+
+    <script defer src="dist/sidebar_items-ED66737F.js"></script>
+    <script defer src="docs_config.js"></script>
+    <script defer src="dist/html-YU4BZFVS.js"></script>
+
+  </head>
+  <body>
+    <script>(()=>{var t="ex_doc:settings",e="dark";var o="dark",s="light";var E="sidebar_state",n="closed";var r="sidebar_width";var a="sidebar-open";var i=new URLSearchParams(window.location.search),S=i.get("theme")||JSON.parse(localStorage.getItem(t)||"{}").theme;(S===o||S!==s&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.body.classList.add(e);var d=sessionStorage.getItem(E),A=d!==n&&!window.matchMedia(`screen and (max-width: ${768}px)`).matches;document.body.classList.toggle(a,A);var c=sessionStorage.getItem(r);c&&document.body.style.setProperty("--sidebarWidth",`${c}px`);var p=/(Macintosh|iPhone|iPad|iPod)/.test(window.navigator.userAgent);document.documentElement.classList.toggle("apple-os",p);})();
+</script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="BACnetEDE.html" class="sidebar-projectName" translate="no">
+bacnet_ede
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.1
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist" data-extras="Pages"></ul>
+  </div>
+</nav>
+
+<output role="status" id="toast"></output>
+
+<main class="content page-module" id="main" data-type="modules">
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of bacnet_ede</span>
+            <div class="search-input-wrapper">
+              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+              <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+                <i class="ri-close-line ri-lg" title="Cancel search"></i>
+              </button>
+            </div>
+          </label>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <div class="engine-selector" data-multiple="false">
+          <button type="button" class="engine-button" aria-label="Select search engine" aria-haspopup="true" aria-expanded="false">
+            <i class="ri-search-2-line" aria-hidden="true"></i>
+            <span class="engine-name">Default</span>
+            <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+          </button>
+          <div class="engine-dropdown" hidden role="menu">
+
+              <button type="button"
+                      class="engine-option"
+                      data-engine-url="search.html?q="
+                      role="menuitemradio"
+                      aria-checked="true">
+                <span class="name">Default</span>
+                <span class="help">In-browser search</span>
+              </button>
+
+          </div>
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <div class="heading-with-actions top-heading">
+    <h1>
+      <span translate="no">BACnetEDE.<wbr>Project.<wbr>Object</span> 
+      <small class="app-vsn" translate="no">(bacnet_ede v0.1.1)</small>
+
+    </h1>
+
+<a href="BACnetEDE.Project.Object.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+  <i class="ri-markdown-line" aria-hidden="true"></i>
+  <span class="sr-only">Copy Markdown</span>
+</a>
+
+
+
+      <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede/project/object.ex#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+  </div>
+
+
+    <section id="moduledoc">
+<p>The object struct identifies an object of the EDE.</p><p>The object usually contains minimal information,
+such as key name, device instance, object name and object type.
+However some information, such as the default present value and whether it supports COV reporting,
+can be shared. All optional information is <code class="inline">nil</code>able and as such may not be present in the EDE.
+All additional information that are not part of the EDE format will be available in the <code class="inline">:more_keys</code> map.
+Since these information are not known, they are available as string only.</p><p>Information on the keys of the struct can be found in the <a href="#t:t/0"><code class="inline">t/0</code></a> docs.</p>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h2>
+<div class="summary-types summary">
+  <h3>
+    <a href="#types">Types</a>
+  </h3>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:t/0" data-no-tooltip="" translate="no">t()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Represents an object of the EDE.</p></div>
+
+    </div>
+
+</div>
+<div class="summary-functions summary">
+  <h3>
+    <a href="#functions">Functions</a>
+  </h3>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#valid?/1" data-no-tooltip="" translate="no">valid?(t)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Validates the struct (type validation).</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="types" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h2>
+
+    <div class="types-list">
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">t()</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede/project/object.ex#L56" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> t() :: %BACnetEDE.Project.Object{
+  default_present_value: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
+  description: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil,
+  device_instance: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(),
+  high_limit: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>() | nil,
+  keyname: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  low_limit: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>() | nil,
+  max_present_value: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>() | nil,
+  min_present_value: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>() | nil,
+  more_keys: %{optional(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()},
+  notification_class: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>() | nil,
+  object_instance: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(),
+  object_name: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
+  object_type: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(),
+  settable: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | nil,
+  state_text_ref: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>() | nil,
+  supports_cov: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | nil,
+  unit_code: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>() | nil,
+  vendor_specific_address: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | nil
+}</pre>
+
+      </div>
+
+<p>Represents an object of the EDE.</p><p>The following keys are present and some are optional (<code class="inline">nil</code>):</p><ul><li><code class="inline">keyname</code> - System wide unique name of the object.</li><li><code class="inline">device_instance</code> - The object instance number of the device the object resides in.</li><li><code class="inline">object_name</code> - The object name and identical to the <code class="inline">object_name</code> BACnet property.
+The name must be unique inside the device.</li><li><code class="inline">object_type</code> - The object type number as defined per ASHRAE 135 BACnet specification.</li><li><code class="inline">object_instance</code> - The object instance number - within a device different objects
+of the same type are distinguished by their instance number.</li><li><code class="inline">description</code> - An information text that provides more detailed description of the datapoint.</li><li><code class="inline">default_present_value</code> - The default value for the <code class="inline">present_value</code> BACnet property.
+If the object is commandable, this field should contain the <code class="inline">relinquish_default</code> value.</li><li><code class="inline">min_present_value</code> - The minimum value that can be in the <code class="inline">present_value</code> BACnet property.</li><li><code class="inline">max_present_value</code> - The maximum value that can be in the <code class="inline">present_value</code> BACnet property.</li><li><code class="inline">settable</code> - Indicates whether the <code class="inline">present_value</code> BACnet property is writable (can be set by a client).</li><li><code class="inline">supports_cov</code> - Indicates whether the object supports COV reporting or not.
+An empty field may indicate that it does support COV. Boolean values will indicate if it does or not.</li><li><code class="inline">high_limit</code> - Indicates whether the object supports Intrinsic reporting and will contain the value
+of the <code class="inline">high_limit</code> BACnet property if the field is readonly.
+This value should be absent the field is writable (can be set by a client).
+In practice, this value might also be absent if the object does not support Intrinsic reporting.</li><li><code class="inline">low_limit</code> - Indicates whether the object supports Intrinsic reporting and will contain the value
+of the <code class="inline">low_limit</code> BACnet property if the field is readonly.
+This value should be absent the field is writable (can be set by a client).
+In practice, this value might also be absent if the object does not support Intrinsic reporting.</li><li><code class="inline">state_text_ref</code> - The value is used as reference number to refer to entries in the state text file.
+Different objects listed in the EDE may refer to the same entry, if their textual representation are identical.</li><li><code class="inline">unit_code</code> - The BACnet engineering unit as defined by ASHRAE 135 BACnet.
+A separate unit file may be used to point the value to a specific text
+(however the reserved numbers must be identical to the BACnet specification).</li><li><code class="inline">vendor_specific_address</code> - This may be used to identify addresses used in the server device.
+The address may provide an internal datapoint identification or reference.</li><li><code class="inline">notification_class</code> - Contains the instance number of the Notification Class object linked to the object.
+If the object does not support Intrinsic reporting, this value should be absent.</li><li><code class="inline">more_keys</code> - Contains additional found (unknown) columns in the EDE that are not part of the EDE specification.
+The keys and values are all strings and may be further parsed, used or converted by the user.</li></ul>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h2>
+
+    <div class="functions-list">
+<section class="detail" id="valid?/1">
+
+  <div class="detail-header">
+    <a href="#valid?/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">valid?(t)</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede/project/object.ex#L136" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> valid?(<a href="#t:t/0">t</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
+
+      </div>
+
+<p>Validates the struct (type validation).</p>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+
+        <p>
+
+            <span class="line">
+              <a href="https://hex.pm/packages/bacnet_ede/0.1.1">Hex Package</a>
+
+              <a href="https://preview.hex.pm/preview/bacnet_ede/0.1.1">Hex Preview</a>
+
+            </span>
+
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Go to package docs">
+              Go to package docs
+            </button>
+
+              <a href="llms.txt" target="_blank">
+                View llms.txt
+              </a>
+
+
+              <a href="bacnet_ede.epub">
+                Download ePub version
+              </a>
+
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.40.1) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

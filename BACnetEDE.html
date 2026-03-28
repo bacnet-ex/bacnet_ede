@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.40.1">
+    <meta name="project" content="bacnet_ede v0.1.1">
+
+
+    <title>BACnetEDE — bacnet_ede v0.1.1</title>
+
+    <link rel="stylesheet" href="dist/html-elixir-YJO4MOOW.css" />
+
+    <script defer src="dist/sidebar_items-ED66737F.js"></script>
+    <script defer src="docs_config.js"></script>
+    <script defer src="dist/html-YU4BZFVS.js"></script>
+
+  </head>
+  <body>
+    <script>(()=>{var t="ex_doc:settings",e="dark";var o="dark",s="light";var E="sidebar_state",n="closed";var r="sidebar_width";var a="sidebar-open";var i=new URLSearchParams(window.location.search),S=i.get("theme")||JSON.parse(localStorage.getItem(t)||"{}").theme;(S===o||S!==s&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.body.classList.add(e);var d=sessionStorage.getItem(E),A=d!==n&&!window.matchMedia(`screen and (max-width: ${768}px)`).matches;document.body.classList.toggle(a,A);var c=sessionStorage.getItem(r);c&&document.body.style.setProperty("--sidebarWidth",`${c}px`);var p=/(Macintosh|iPhone|iPad|iPod)/.test(window.navigator.userAgent);document.documentElement.classList.toggle("apple-os",p);})();
+</script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="BACnetEDE.html" class="sidebar-projectName" translate="no">
+bacnet_ede
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.1
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist" data-extras="Pages"></ul>
+  </div>
+</nav>
+
+<output role="status" id="toast"></output>
+
+<main class="content page-module" id="main" data-type="modules">
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of bacnet_ede</span>
+            <div class="search-input-wrapper">
+              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+              <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+                <i class="ri-close-line ri-lg" title="Cancel search"></i>
+              </button>
+            </div>
+          </label>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <div class="engine-selector" data-multiple="false">
+          <button type="button" class="engine-button" aria-label="Select search engine" aria-haspopup="true" aria-expanded="false">
+            <i class="ri-search-2-line" aria-hidden="true"></i>
+            <span class="engine-name">Default</span>
+            <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+          </button>
+          <div class="engine-dropdown" hidden role="menu">
+
+              <button type="button"
+                      class="engine-option"
+                      data-engine-url="search.html?q="
+                      role="menuitemradio"
+                      aria-checked="true">
+                <span class="name">Default</span>
+                <span class="help">In-browser search</span>
+              </button>
+
+          </div>
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <div class="heading-with-actions top-heading">
+    <h1>
+      <span translate="no">BACnetEDE</span> 
+      <small class="app-vsn" translate="no">(bacnet_ede v0.1.1)</small>
+
+    </h1>
+
+<a href="BACnetEDE.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+  <i class="ri-markdown-line" aria-hidden="true"></i>
+  <span class="sr-only">Copy Markdown</span>
+</a>
+
+
+
+      <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+  </div>
+
+
+    <section id="moduledoc">
+<p>BACnetEDE is a BACnet EDE File parser and writer. EDE stands for Engineering Data Exchange.</p><p>EDE is a data exchange format specified by the BACnet Interest Group Europe - B.I.G.-EU.
+You can download the official specification on their <a href="https://www.big-eu.org/resources/">website</a>.</p><p>The EDE format is basically an Excel sheet (or CSV) to help exchange engineering data,
+such as datapoint types and addresses information in a standardized form.
+It was never intended for more than just human to human data exchange,
+because it only carries minimum information.
+However it has grown by convenience to use for machine-to-machine data exchange in CSV form.</p><p>The following naming conventions exist for EDE files (including additional files, such as state texts):</p><ul><li>Prefix: Name agreed by the involved parties (e.g. the project name)</li><li>Separator: <code class="inline">_</code> Underscore</li><li>Suffix:<ul><li><code class="inline">EDE</code> identifies the main EDE file/table</li><li><code class="inline">ObjTypes</code> identifies the object type table</li><li><code class="inline">StateTexts</code> identifies the state texts used in Binary and Multistate objects</li><li><code class="inline">Units</code> identifies the table of BACnet engineering units</li></ul></li><li>Extension: <code class="inline">.csv</code></li></ul><p>Example of naming convention:</p><ul><li>Project Name: FlightRadar</li><li>EDE file: <code class="inline">FlightRadar_EDE.csv</code></li><li>Object types file: <code class="inline">FlightRadar_ObjTypes.csv</code></li><li>State texts file: <code class="inline">FlightRadar_StateTexts.csv</code></li><li>Units file: <code class="inline">FlightRadar_Units.csv</code></li></ul><p>See the specification for more information on the specification itself.
+See the documentation for more information about the library and its modules.</p><h2 id="module-installation" class="section-heading"><a href="#module-installation" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Installation</span></h2><p>The package can be installed by adding <code class="inline">bacnet_ede</code> to your list of dependencies in <code class="inline">mix.exs</code>:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="1304601574-1">do</span><span class="w">
+  </span><span class="p" data-group-id="1304601574-2">[</span><span class="w">
+    </span><span class="p" data-group-id="1304601574-3">{</span><span class="ss">:bacnet_ede</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.0&quot;</span><span class="p" data-group-id="1304601574-3">}</span><span class="w">
+  </span><span class="p" data-group-id="1304601574-2">]</span><span class="w">
+</span><span class="k" data-group-id="1304601574-1">end</span></code></pre><p>The docs can be found at <a href="https://hexdocs.pm/bacnet_ede">https://hexdocs.pm/bacnet_ede</a>.</p><h2 id="module-usage" class="section-heading"><a href="#module-usage" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Usage</span></h2><p>This library can be used to read and write BACnet EDE files.</p><h3 id="module-parse-ede" class="section-heading"><a href="#module-parse-ede" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Parse EDE</span></h3><p>An EDE file can be simply parsed by using <a href="#from_file/2"><code class="inline">BACnetEDE.from_file/2</code></a> (or any other of <code class="inline">from_*</code>):</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="4676182589-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">ede</span><span class="p" data-group-id="4676182589-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BACnetEDE</span><span class="o">.</span><span class="n">from_file</span><span class="p" data-group-id="4676182589-2">(</span><span class="s">&quot;path/to/file.csv&quot;</span><span class="p" data-group-id="4676182589-2">)</span></code></pre><p>For example reading the official EDE sample will look like this:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex(4)&gt; </span><span class="nc">BACnetEDE</span><span class="o">.</span><span class="n">from_file</span><span class="p" data-group-id="2675506529-1">(</span><span class="s">&quot;./samples/EDE_2_2_example_EDE.csv&quot;</span><span class="p" data-group-id="2675506529-1">)</span><span class="w">
+</span><span class="p" data-group-id="2675506529-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+ </span><span class="p" data-group-id="2675506529-3">%</span><span class="nc" data-group-id="2675506529-3">BACnetEDE.Project</span><span class="p" data-group-id="2675506529-3">{</span><span class="w">
+   </span><span class="ss">project_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EDEexample&quot;</span><span class="p">,</span><span class="w">
+   </span><span class="ss">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w">
+   </span><span class="ss">timestamp_last_change</span><span class="p">:</span><span class="w"> </span><span class="ld">~N[2005-12-19 00:00:00]</span><span class="p">,</span><span class="w">
+   </span><span class="ss">author_last_change</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;G. Sampler&quot;</span><span class="p">,</span><span class="w">
+   </span><span class="ss">layout_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2.2&quot;</span><span class="p">,</span><span class="w">
+   </span><span class="ss">objects</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2675506529-4">%{</span><span class="w">
+     </span><span class="s">&quot;Building03Room15&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="2675506529-5">%</span><span class="nc" data-group-id="2675506529-5">BACnetEDE.Project.Object</span><span class="p" data-group-id="2675506529-5">{</span><span class="w">
+       </span><span class="ss">keyname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Building03Room15&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">device_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ASB03R15&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_type</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+       </span><span class="ss">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Controller10&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">default_present_value</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">min_present_value</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">max_present_value</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">settable</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w">
+       </span><span class="ss">supports_cov</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w">
+       </span><span class="ss">high_limit</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">low_limit</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">state_text_ref</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">unit_code</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">vendor_specific_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;A1.19.02&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">notification_class</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">more_keys</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2675506529-6">%{</span><span class="p" data-group-id="2675506529-6">}</span><span class="w">
+     </span><span class="p" data-group-id="2675506529-5">}</span><span class="p">,</span><span class="w">
+     </span><span class="s">&quot;Building03Room15Damper&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="2675506529-7">%</span><span class="nc" data-group-id="2675506529-7">BACnetEDE.Project.Object</span><span class="p" data-group-id="2675506529-7">{</span><span class="w">
+       </span><span class="ss">keyname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Building03Room15Damper&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">device_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Damper&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_type</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">1111</span><span class="p">,</span><span class="w">
+       </span><span class="ss">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Raw Value Damper&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">default_present_value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;555&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">min_present_value</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">max_present_value</span><span class="p">:</span><span class="w"> </span><span class="mf">1000.0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">settable</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w">
+       </span><span class="ss">supports_cov</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w">
+       </span><span class="ss">high_limit</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">low_limit</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">state_text_ref</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">unit_code</span><span class="p">:</span><span class="w"> </span><span class="mi">95</span><span class="p">,</span><span class="w">
+       </span><span class="ss">vendor_specific_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DR12.111.2345&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">notification_class</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">more_keys</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2675506529-8">%{</span><span class="p" data-group-id="2675506529-8">}</span><span class="w">
+     </span><span class="p" data-group-id="2675506529-7">}</span><span class="p">,</span><span class="w">
+     </span><span class="s">&quot;Building03Room15DamperPosition&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="2675506529-9">%</span><span class="nc" data-group-id="2675506529-9">BACnetEDE.Project.Object</span><span class="p" data-group-id="2675506529-9">{</span><span class="w">
+       </span><span class="ss">keyname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Building03Room15DamperPosition&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">device_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Damper&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_type</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">1234</span><span class="p">,</span><span class="w">
+       </span><span class="ss">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Damper in Duct 2&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">default_present_value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;55&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">min_present_value</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">max_present_value</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">settable</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w">
+       </span><span class="ss">supports_cov</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w">
+       </span><span class="ss">high_limit</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">low_limit</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">state_text_ref</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">unit_code</span><span class="p">:</span><span class="w"> </span><span class="mi">98</span><span class="p">,</span><span class="w">
+       </span><span class="ss">vendor_specific_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;D12.111.2345&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">notification_class</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">more_keys</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2675506529-10">%{</span><span class="p" data-group-id="2675506529-10">}</span><span class="w">
+     </span><span class="p" data-group-id="2675506529-9">}</span><span class="p">,</span><span class="w">
+     </span><span class="s">&quot;Building03Room15Temperature&quot;</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p" data-group-id="2675506529-11">%</span><span class="nc" data-group-id="2675506529-11">BACnetEDE.Project.Object</span><span class="p" data-group-id="2675506529-11">{</span><span class="w">
+       </span><span class="ss">keyname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Building03Room15Temperature&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">device_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;RoomTemperature&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_type</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">object_instance</span><span class="p">:</span><span class="w"> </span><span class="mi">4123</span><span class="p">,</span><span class="w">
+       </span><span class="ss">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;This is a Room Temperature&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">default_present_value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">min_present_value</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">max_present_value</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">settable</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w">
+       </span><span class="ss">supports_cov</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w">
+       </span><span class="ss">high_limit</span><span class="p">:</span><span class="w"> </span><span class="mf">24.0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">low_limit</span><span class="p">:</span><span class="w"> </span><span class="mf">18.0</span><span class="p">,</span><span class="w">
+       </span><span class="ss">state_text_ref</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">unit_code</span><span class="p">:</span><span class="w"> </span><span class="mi">62</span><span class="p">,</span><span class="w">
+       </span><span class="ss">vendor_specific_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;T1.128.15&quot;</span><span class="p">,</span><span class="w">
+       </span><span class="ss">notification_class</span><span class="p">:</span><span class="w"> </span><span class="no">nil</span><span class="p">,</span><span class="w">
+       </span><span class="ss">more_keys</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2675506529-12">%{</span><span class="p" data-group-id="2675506529-12">}</span><span class="w">
+     </span><span class="p" data-group-id="2675506529-11">}</span><span class="p">,</span><span class="w">
+     </span><span class="c1"># ...</span><span class="w">
+   </span><span class="p" data-group-id="2675506529-4">}</span><span class="w">
+ </span><span class="p" data-group-id="2675506529-3">}</span><span class="p" data-group-id="2675506529-2">}</span></code></pre><h3 id="module-write-ede" class="section-heading"><a href="#module-write-ede" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Write EDE</span></h3><p>An EDE file can be created by calling the  <code class="inline">BACnetEDE.to_*</code> functions with the <a href="BACnetEDE.Project.html"><code class="inline">BACnetEDE.Project</code></a> struct.
+You have to create such a struct yourself in a valid form, however that shouldn't be too hard.
+Check the EDE sample example above.</p><p>Once you have such a struct, call <a href="#to_file/3"><code class="inline">BACnetEDE.to_file/3</code></a> (or any other of <code class="inline">to_*</code>) to create the CSV file:</p><pre><code class="makeup elixir" translate="no"><span class="nc">BACnetEDE</span><span class="o">.</span><span class="n">to_file</span><span class="p" data-group-id="9220908328-1">(</span><span class="n">project_struct</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;path/to/file.csv&quot;</span><span class="p" data-group-id="9220908328-1">)</span></code></pre>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h2>
+<div class="summary-types summary">
+  <h3>
+    <a href="#types">Types</a>
+  </h3>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:dump_option/0" data-no-tooltip="" translate="no">dump_option()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Available options for <a href="#to_binary/2"><code class="inline">to_binary/2</code></a>, <a href="#to_file/3"><code class="inline">to_file/3</code></a> and <a href="#to_stream/2"><code class="inline">to_stream/2</code></a>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:dump_options/0" data-no-tooltip="" translate="no">dump_options()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Available options for <a href="#to_binary/2"><code class="inline">to_binary/2</code></a>, <a href="#to_file/3"><code class="inline">to_file/3</code></a> and <a href="#to_stream/2"><code class="inline">to_stream/2</code></a>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:naming_convention/0" data-no-tooltip="" translate="no">naming_convention()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Naming conventions for the EDE files.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:parse_option/0" data-no-tooltip="" translate="no">parse_option()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Available options for <a href="#from_binary/2"><code class="inline">from_binary/2</code></a>, <a href="#from_file/2"><code class="inline">from_file/2</code></a> and <a href="#from_stream/2"><code class="inline">from_stream/2</code></a>.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:parse_options/0" data-no-tooltip="" translate="no">parse_options()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Available options for <a href="#from_binary/2"><code class="inline">from_binary/2</code></a>, <a href="#from_file/2"><code class="inline">from_file/2</code></a> and <a href="#from_stream/2"><code class="inline">from_stream/2</code></a>.</p></div>
+
+    </div>
+
+</div>
+<div class="summary-functions summary">
+  <h3>
+    <a href="#functions">Functions</a>
+  </h3>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#from_binary/2" data-no-tooltip="" translate="no">from_binary(binary, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Parses the given binary as an EDE CSV file.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#from_file/2" data-no-tooltip="" translate="no">from_file(path, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Parses an EDE file from a CSV file path.
+This function uses line streaming for the parsing process.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#from_stream/2" data-no-tooltip="" translate="no">from_stream(stream, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Parses an EDE file from a CSV stream (i.e. a file stream).</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#to_binary/2" data-no-tooltip="" translate="no">to_binary(project, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Dumps the given Project (EDE data) into a CSV encoded binary.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#to_file/3" data-no-tooltip="" translate="no">to_file(project, path, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Dumps the given Project (EDE data) into a CSV file.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#to_stream/2" data-no-tooltip="" translate="no">to_stream(project, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Dumps the given Project (EDE data) into a CSV encoded stream.</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="types" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h2>
+
+    <div class="types-list">
+<section class="detail" id="t:dump_option/0">
+
+  <div class="detail-header">
+    <a href="#t:dump_option/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">dump_option()</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L114" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> dump_option() ::
+  {:csv_encoder, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>()}
+  | {:date_format, :named | :german | :german_with_time | :iso8601}
+  | {:dump_all_keys, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()}
+  | {:fill_all_columns, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()}
+  | {:unlock_layout_version, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()}</pre>
+
+      </div>
+
+<p>Available options for <a href="#to_binary/2"><code class="inline">to_binary/2</code></a>, <a href="#to_file/3"><code class="inline">to_file/3</code></a> and <a href="#to_stream/2"><code class="inline">to_stream/2</code></a>.</p><p>See <a href="#t:dump_options/0"><code class="inline">dump_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="t:dump_options/0">
+
+  <div class="detail-header">
+    <a href="#t:dump_options/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">dump_options()</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L141" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> dump_options() :: [<a href="#t:dump_option/0">dump_option</a>()]</pre>
+
+      </div>
+
+<p>Available options for <a href="#to_binary/2"><code class="inline">to_binary/2</code></a>, <a href="#to_file/3"><code class="inline">to_file/3</code></a> and <a href="#to_stream/2"><code class="inline">to_stream/2</code></a>.</p><p>Available options:</p><ul><li><code class="inline">csv_encoder: module()</code> - Optional. A module implementing the Nimble CSV behaviour.
+The default CSV encoder uses semicolons and CRLF newlines as separator.
+You may have the need for a different separator (i.e. comma) for your EDE file.</li><li><p><code class="inline">date_format: :named | :german | :german_with_time | :iso8601</code> - Optional.
+The date format to use (defaults to <code class="inline">:named</code>).
+Formats: <code class="inline">named: 04 Jan 2025</code>, <code class="inline">german: 04.01.2025</code>, <code class="inline">german_with_time: 04.01.2025 10:05:30</code>.</p></li><li><code class="inline">dump_all_keys: boolean()</code> - Optional. Dumps all, including <code class="inline">:more_keys</code>, of objects.
+If false, it will only dump the keys of the <a href="BACnetEDE.Project.Object.html"><code class="inline">BACnetEDE.Project.Object</code></a> struct
+without any additional data (<code class="inline">:more_keys</code>).
+Dumping all keys will substantially use more computing resources as the data has to be enumerated twice.
+First to get all available keys and build the header and then once more to dump the values.</li><li><code class="inline">fill_all_columns: boolean()</code> - Optional. Ensures all rows have the same amount of columns.
+By default, only the necessary amount of columns per row is used for the EDE header part.</li><li><code class="inline">unlock_layout_version: boolean()</code> - Optional. Uses the layout version of the project
+instead of defaulting to the latest.</li></ul>
+  </section>
+</section>
+<section class="detail" id="t:naming_convention/0">
+
+  <div class="detail-header">
+    <a href="#t:naming_convention/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">naming_convention()</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L70" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> naming_convention() ::
+  {:EDE, :&quot;_EDE.csv&quot;}
+  | {:object_types, :&quot;_ObjTypes.csv&quot;}
+  | {:state_texts, :&quot;_StateTexts.csv&quot;}
+  | {:units, :&quot;_Units.csv&quot;}</pre>
+
+      </div>
+
+<p>Naming conventions for the EDE files.</p><p>The following naming conventions exist for EDE files (including additional files, such as state texts):</p><ul><li>Prefix: Name agreed by the involved parties (e.g. the project name)</li><li>Separator: <code class="inline">_</code> Underscore</li><li>Suffix:<ul><li><code class="inline">EDE</code> identifies the main EDE file/table</li><li><code class="inline">ObjTypes</code> identifies the object type table</li><li><code class="inline">StateTexts</code> identifies the state texts used in Binary and Multistate objects</li><li><code class="inline">Units</code> identifies the table of BACnet engineering units</li></ul></li><li>Extension: <code class="inline">.csv</code></li></ul>
+  </section>
+</section>
+<section class="detail" id="t:parse_option/0">
+
+  <div class="detail-header">
+    <a href="#t:parse_option/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">parse_option()</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L81" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> parse_option() ::
+  {:csv_parser, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>()}
+  | {:disable_with_error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()}
+  | {:fixed_mandatory_columns, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()}
+  | {:skip_type_errors, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()}</pre>
+
+      </div>
+
+<p>Available options for <a href="#from_binary/2"><code class="inline">from_binary/2</code></a>, <a href="#from_file/2"><code class="inline">from_file/2</code></a> and <a href="#from_stream/2"><code class="inline">from_stream/2</code></a>.</p><p>See <a href="#t:parse_options/0"><code class="inline">parse_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="t:parse_options/0">
+
+  <div class="detail-header">
+    <a href="#t:parse_options/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">parse_options()</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L107" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> parse_options() :: [<a href="#t:parse_option/0">parse_option</a>()]</pre>
+
+      </div>
+
+<p>Available options for <a href="#from_binary/2"><code class="inline">from_binary/2</code></a>, <a href="#from_file/2"><code class="inline">from_file/2</code></a> and <a href="#from_stream/2"><code class="inline">from_stream/2</code></a>.</p><p>Available options:</p><ul><li><code class="inline">csv_parser: module()</code> - Optional. A module implementing the Nimble CSV behaviour.
+The default CSV parser uses semicolons and CRLF newlines as separator.
+You may have the need for a different separator (i.e. comma) for your EDE file.</li><li><code class="inline">disable_with_error: boolean()</code> - Optional. After parsing the whole EDE file, the data will be validated.
+By default, if a validation error is found, an error <code class="inline">{:error, string, Project.t()}</code> will be returned.
+If this is set to <code class="inline">true</code>, a validation error will turn into a simple error tuple.
+The extended error tuple allows for comparing what is found and may ignore the validation error,
+if the data is still sufficiently valid for the user.</li><li><code class="inline">fixed_mandatory_columns: boolean()</code> - Optional. Uses fixed columns for the mandatory columns (no parsing).
+All following (optional) columns will be parsed.
+Mandatory columns: <code class="inline">keyname;device obj.-instance;object-name;object-type;object-instance</code></li><li><code class="inline">skip_type_errors: boolean()</code> - Optional. Skip type errors (values will stay as <code class="inline">nil</code>).
+By default, when an invalid value is specified (i.e. string for integer), an error will be returned.
+This option will simply ignore the value and column (value will stay as <code class="inline">nil</code>).
+Please note, that validation MAY fail when a mandatory field is not set.</li></ul>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h2 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h2>
+
+    <div class="functions-list">
+<section class="detail" id="from_binary/2">
+
+    <span id="from_binary/1"></span>
+
+  <div class="detail-header">
+    <a href="#from_binary/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">from_binary(binary, opts \\ [])</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L154" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> from_binary(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="#t:parse_options/0">parse_options</a>()) ::
+  {:ok, <a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>()}
+  | {:with_error, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>()}
+  | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Parses the given binary as an EDE CSV file.</p><p>The parser will recognize EDE layout version 2.2 and 2.3 without error,
+however other versions will be parsed on &quot;best effort&quot; basis and return a &quot;with error&quot; (see option <code class="inline">disable_with_error</code>),
+which you should handle, if you intend to parse earlier versions (don't even think about disabling &quot;with error&quot; in such a case).</p><p>See <a href="#t:parse_options/0"><code class="inline">parse_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="from_file/2">
+
+    <span id="from_file/1"></span>
+
+  <div class="detail-header">
+    <a href="#from_file/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">from_file(path, opts \\ [])</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L180" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> from_file(<a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a>(), <a href="#t:parse_options/0">parse_options</a>()) ::
+  {:ok, <a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>()}
+  | {:with_error, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>()}
+  | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Parses an EDE file from a CSV file path.
+This function uses line streaming for the parsing process.</p><p>The parser will recognize EDE layout version 2.2 and 2.3 without error,
+however other versions will be parsed on &quot;best effort&quot; basis and return a &quot;with error&quot; (see option <code class="inline">disable_with_error</code>),
+which you should handle, if you intend to parse earlier versions (don't even think about disabling &quot;with error&quot; in such a case).</p><p>See <a href="#t:parse_options/0"><code class="inline">parse_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="from_stream/2">
+
+    <span id="from_stream/1"></span>
+
+  <div class="detail-header">
+    <a href="#from_stream/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">from_stream(stream, opts \\ [])</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L207" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> from_stream(<a href="https://hexdocs.pm/elixir/Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="#t:parse_options/0">parse_options</a>()) ::
+  {:ok, <a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>()}
+  | {:with_error, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>()}
+  | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Parses an EDE file from a CSV stream (i.e. a file stream).</p><p>Make sure the stream is line-orientated or use NimbleCSV's <code class="inline">to_line_stream/1</code> if you can't.
+See <a href="BACnetEDE.CSV.html#to_line_stream/1"><code class="inline">BACnetEDE.CSV.to_line_stream/1</code></a> for the default parser's function.</p><p>The parser will recognize EDE layout version 2.2 and 2.3 without error,
+however other versions will be parsed on &quot;best effort&quot; basis and return a &quot;with error&quot; (see option <code class="inline">disable_with_error</code>),
+which you should handle, if you intend to parse earlier versions (don't even think about disabling &quot;with error&quot; in such a case).</p><p>See <a href="#t:parse_options/0"><code class="inline">parse_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="to_binary/2">
+
+    <span id="to_binary/1"></span>
+
+  <div class="detail-header">
+    <a href="#to_binary/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">to_binary(project, opts \\ [])</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L233" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> to_binary(<a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>(), <a href="#t:dump_options/0">dump_options</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Dumps the given Project (EDE data) into a CSV encoded binary.</p><p>Layout version should always be 2.3 (the current latest one).</p><p>By default, only the EDE specified information will be made available into the EDE.
+If you want to also include data from the <code class="inline">more_keys</code> map of the objects,
+see the available options.</p><p>See <a href="#t:dump_options/0"><code class="inline">dump_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="to_file/3">
+
+    <span id="to_file/2"></span>
+
+  <div class="detail-header">
+    <a href="#to_file/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">to_file(project, path, opts \\ [])</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L266" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> to_file(<a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>(), <a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a>(), <a href="#t:dump_options/0">dump_options</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Dumps the given Project (EDE data) into a CSV file.</p><p>Layout version should always be 2.3 (the current latest one).</p><p>By default, only the EDE specified information will be made available into the EDE.
+If you want to also include data from the <code class="inline">more_keys</code> map of the objects,
+see the available options.</p><p>See <a href="#t:dump_options/0"><code class="inline">dump_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+<section class="detail" id="to_stream/2">
+
+    <span id="to_stream/1"></span>
+
+  <div class="detail-header">
+    <a href="#to_stream/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">to_stream(project, opts \\ [])</h1>
+
+
+        <a href="https://github.com/bacnet-ex/bacnet_ede/blob/master/lib/bacnet_ede.ex#L300" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> to_stream(<a href="BACnetEDE.Project.html#t:t/0">BACnetEDE.Project.t</a>(), <a href="#t:dump_options/0">dump_options</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/elixir/Enumerable.html#t:t/0">Enumerable.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Dumps the given Project (EDE data) into a CSV encoded stream.</p><p>Layout version should always be 2.3 (the current latest one).</p><p>By default, only the EDE specified information will be made available into the EDE.
+If you want to also include data from the <code class="inline">more_keys</code> map of the objects,
+see the available options.</p><p>See <a href="#t:dump_options/0"><code class="inline">dump_options/0</code></a> for a description of the available options.</p>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+
+        <p>
+
+            <span class="line">
+              <a href="https://hex.pm/packages/bacnet_ede/0.1.1">Hex Package</a>
+
+              <a href="https://preview.hex.pm/preview/bacnet_ede/0.1.1">Hex Preview</a>
+
+            </span>
+
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Go to package docs">
+              Go to package docs
+            </button>
+
+              <a href="llms.txt" target="_blank">
+                View llms.txt
+              </a>
+
+
+              <a href="bacnet_ede.epub">
+                Download ePub version
+              </a>
+
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.40.1) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

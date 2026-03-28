@@ -1,0 +1,23 @@
+# bacnet_ede v0.1.1 - Table of Contents
+
+BACnetEDE is a BACnet EDE File parser and writer. EDE stands for Engineering Data Exchange.
+
+## Modules
+
+- [BACnetEDE](BACnetEDE.md): BACnetEDE is a BACnet EDE File parser and writer. EDE stands for Engineering Data Exchange.
+- [BACnetEDE.CSV](BACnetEDE.CSV.md): Default CSV parser and encoder for this library.
+It uses CRLF `\r\n` line separator and semicolons `;` as separator.
+
+- [BACnetEDE.ObjectTypes](BACnetEDE.ObjectTypes.md): The Object Types contain a number of rows or data, identified by its reference number,
+listing an enumeration of BACnet object types.
+BACnet object types are defined by the ASHRAE 135 BACnet protocol standard.
+- [BACnetEDE.Project](BACnetEDE.Project.md): The `Project` is the main struct and contains the project information as included in the EDE.
+- [BACnetEDE.Project.Object](BACnetEDE.Project.Object.md): The object struct identifies an object of the EDE.
+- [BACnetEDE.StateTexts](BACnetEDE.StateTexts.md): The State Texts contains a number of rows or data, identified by its reference number,
+listing an enumeration of state texts for multistate objects or binary objects
+(only inactive and active texts).
+Multistate and binary texts must not be mixed under one reference number.
+- [BACnetEDE.Units](BACnetEDE.Units.md): The Units contain a number of rows or data, identified by its reference number,
+listing an enumeration of BACnet engineering units. BACnet engineering units
+are defined by the ASHRAE 135 BACnet protocol standard.
+
