@@ -268,18 +268,14 @@ defmodule BACnetEDE do
       raise ArgumentError, "to_file/3 expected a keyword list, got: #{inspect(opts)}"
     end
 
-    # Check if file exists, if not, create it, if it does, clear it
-    case File.stat(path) do
-      {:ok, _stat} -> File.write(path, "")
-      _else -> File.touch!(path)
-    end
-
-    file_stream = File.stream!(path)
-
     project
     |> to_stream(opts)
     |> then(fn
       {:ok, stream} ->
+        # Clear file (will also create it, if it doesn't exist)
+        File.write(path, "")
+        file_stream = File.stream!(path)
+
         stream
         |> Enum.into(file_stream)
         |> Stream.run()
